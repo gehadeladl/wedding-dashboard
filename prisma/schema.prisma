@@ -1,0 +1,242 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Admin {
+  id        String   @id @default(cuid())
+  username  String   @unique
+  password  String
+  createdAt DateTime @default(now())
+}
+
+model Category {
+  id       String  @id @default(cuid())
+  name     String  @unique
+  isActive Boolean @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  products Product[]
+}
+
+model Product {
+  id String @id @default(cuid())
+
+  categoryId String?
+
+  name        String
+  description String?
+  price       Float?
+
+  // للموقع
+  showPrice      Boolean @default(true)
+  websiteSection String?
+  showOnHome     Boolean @default(true)
+  displayOrder   Int     @default(0)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  category Category? @relation(fields: [categoryId], references: [id])
+
+  images   ProductImage[]
+  variants ProductVariant[]
+}
+
+model ProductImage {
+  id String @id @default(cuid())
+
+  productId String
+
+  imageUrl String
+
+  sortOrder Int @default(0)
+
+  product Product @relation(fields: [productId], references: [id])
+}
+
+model ProductVariant {
+  id String @id @default(cuid())
+
+  productId String
+
+  color String?
+  size  String?
+
+  sku String? @unique
+
+  product Product @relation(fields: [productId], references: [id])
+
+  inventory Inventory?
+}
+
+model Inventory {
+  id String @id @default(cuid())
+
+  variantId String @unique
+
+  quantity Int @default(0)
+
+  minStock Int @default(3)
+
+  variant ProductVariant @relation(fields: [variantId], references: [id])
+
+  movements InventoryMovement[]
+}
+
+model InventoryMovement {
+  id String @id @default(cuid())
+
+  inventoryId String
+
+  type String
+
+  quantity Int
+
+  note String?
+
+  createdAt DateTime @default(now())
+
+  inventory Inventory @relation(fields: [inventoryId], references: [id])
+}
+
+model Customer {
+  id String @id @default(cuid())
+
+  name  String
+  phone String
+
+  bookingDate  DateTime @default(now())
+  deliveryDate DateTime
+
+  totalAmount     Float?
+  paidAmount      Float?
+  remainingAmount Float?
+
+  notes String?
+
+  isDelivered Boolean @default(false)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  measurementsCompleted Boolean @default(false)
+
+  orderStatus String @default("NEW")
+
+  measurement CustomerMeasurement?
+}
+
+model CustomerMeasurement {
+  id String @id @default(cuid())
+
+  customerId String @unique
+
+  // الجاكيت
+  jacketSize   Float?
+  jacketLength Float?
+  sleeveLength Float?
+  armhole      Float?
+  chest        Float?
+  stomach      Float?
+
+  jacketNotes String?
+
+  // البنطلون
+  waist         Float?
+  pantsLength   Float?
+  thigh         Float?
+  zipper        Float?
+  calf          Float?
+  legOpening    Float?
+  halfHip       Float?
+  circumference Float?
+
+  // الياقة
+  collarStyle String?
+
+  // السديري
+  vestEnabled Boolean @default(false)
+  vestCollar  String?
+  vestButtons String?
+
+  // القميص
+  shirtEnabled   Boolean @default(false)
+  shirtColor     String?
+  shirtFit       String?
+  shirtAccessory String?
+
+  // البابيون
+  bowtieEnabled  Boolean @default(false)
+  bowtieMaterial String?
+  bowtieSize     String?
+
+  // الكرافتة
+  tieEnabled      Boolean @default(false)
+  tieNotes        String?
+  tiePocketSquare Boolean @default(false)
+
+  // بوكيه الورد
+  bouquetEnabled Boolean @default(false)
+
+  // الشراب
+  socksEnabled Boolean @default(false)
+  socksColor   String?
+
+  // الحزام العريض
+  wideBeltEnabled  Boolean @default(false)
+  wideBeltMaterial String?
+  wideBeltColor    String?
+
+  // الحزام العادي
+  beltEnabled  Boolean @default(false)
+  beltColor    String?
+  beltMaterial String?
+
+  // الشوز
+  shoesStyle    String?
+  shoesMaterial String?
+
+  // القماش
+  fabricCategory String?
+  fabricOrigin   String?
+
+  shoesEnabled Boolean  @default(false)
+  customer     Customer @relation(fields: [customerId], references: [id])
+}
+
+model InventoryItem {
+  id String @id @default(cuid())
+
+  itemType String
+
+  color    String?
+  size     String?
+  style    String?
+  material String?
+  shirtFit String?
+
+  quantity Int @default(0)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model HomeSlider {
+  id String @id @default(cuid())
+
+  imageUrl String
+
+  sortOrder Int @default(0)
+
+  isActive Boolean @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}

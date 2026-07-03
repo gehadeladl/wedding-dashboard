@@ -9,12 +9,26 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "next": "16.2.9",
-    "react": "19.2.7",
-    "react-dom": "19.2.7"
+    "@fontsource/cairo": "^5.2.7",
+    "@prisma/client": "^6.19.3",
+    "antd": "^6.4.4",
+    "axios": "^1.17.0",
+    "bcryptjs": "^3.0.3",
+    "cloudinary": "^2.10.0",
+    "cookie": "^1.1.1",
+    "dayjs": "^1.11.21",
+    "framer-motion": "^12.40.0",
+    "jsonwebtoken": "^9.0.3",
+    "multer": "^2.1.1",
+    "next": "12.3.7",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "react-easy-crop": "^6.0.2",
+    "uuid": "^14.0.0"
   },
   "devDependencies": {
-    "eslint": "9.39.4",
-    "eslint-config-next": "16.2.9"
+    "eslint": "8.57.1",
+    "eslint-config-next": "12.3.7",
+    "prisma": "^6.19.3"
   }
 }
