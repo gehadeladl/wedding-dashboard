@@ -10,6 +10,7 @@ export default function PageHeader({
 }) {
   return (
     <Row
+      className="page-header"
       justify="space-between"
       align="middle"
       style={{
@@ -17,6 +18,7 @@ export default function PageHeader({
       }}
     >
       <Col>
+        <div className="page-header__eyebrow">DESIGNER MOHAMED ALAA</div>
         <h2
           style={{
             margin: 0,

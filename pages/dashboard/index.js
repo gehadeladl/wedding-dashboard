@@ -1,6 +1,7 @@
 import withAuth from "@/hoc/withAuth";
 import DashboardLayout from "@/layouts/DashboardLayout";
 import api from "@/services/api";
+import PageLoader from "@/components/PageLoader";
 import { Card, Col, Row, Statistic, Typography } from "antd";
 import { useEffect, useState } from "react";
 
@@ -8,6 +9,7 @@ const { Title } = Typography;
 
 export default function Dashboard() {
   const [stats, setStats] = useState(null);
+  const [fetching, setFetching] = useState(true);
 
   const getStats = async () => {
     try {
@@ -15,6 +17,8 @@ export default function Dashboard() {
       setStats(res.data);
     } catch (error) {
       console.log(error);
+    } finally {
+      setFetching(false);
     }
   };
 
@@ -24,8 +28,12 @@ export default function Dashboard() {
 
   return (
     <DashboardLayout>
+      {fetching ? (
+        <PageLoader rows={3} />
+      ) : (
+        <>
       {/* ================= العملاء ================= */}
-      <Title level={4} style={{ marginBottom: 16 }}>
+      <Title className="dashboard-section-title" level={4} style={{ marginBottom: 16 }}>
         إحصائيات العملاء
       </Title>
 
@@ -83,7 +91,7 @@ export default function Dashboard() {
       </Row>
 
       {/* ================= المخزون ================= */}
-      <Title level={4} style={{ margin: "32px 0 16px" }}>
+      <Title className="dashboard-section-title" level={4} style={{ margin: "44px 0 16px" }}>
         إحصائيات الإكسسوارات / المخزون
       </Title>
 
@@ -136,6 +144,8 @@ export default function Dashboard() {
           </Card>
         </Col>
       </Row>
+        </>
+      )}
     </DashboardLayout>
   );
 }

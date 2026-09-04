@@ -135,7 +135,7 @@ export default function CreateProduct() {
                 name="name"
                 rules={[{ required: true, message: "أدخل اسم المنتج" }]}
               >
-                <Input />
+                <Input placeholder="اسم المنتج" />
               </Form.Item>
             </Col>
 

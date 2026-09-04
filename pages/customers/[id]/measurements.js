@@ -16,6 +16,7 @@ import { useRouter } from "next/router";
 import api from "@/services/api";
 import DashboardLayout from "@/layouts/DashboardLayout";
 import PageHeader from "@/components/PageHeader";
+import PageLoader from "@/components/PageLoader";
 import { useEffect, useState } from "react";
 import withAuth from "@/hoc/withAuth";
 const { TextArea } = Input;
@@ -23,6 +24,7 @@ const { TextArea } = Input;
 export default function MeasurementsPage() {
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
+  const [fetching, setFetching] = useState(true);
   const [customer, setCustomer] = useState(null);
   const router = useRouter();
 
@@ -37,6 +39,8 @@ export default function MeasurementsPage() {
       }
     } catch (error) {
       console.log(error);
+    } finally {
+      setFetching(false);
     }
   };
 
@@ -48,21 +52,21 @@ export default function MeasurementsPage() {
 
   const onFinish = async (values) => {
     console.log(values);
-    // try {
-    //   setLoading(true);
+    try {
+      setLoading(true);
 
-    //   await api.post(`/customers/${router.query.id}/measurement`, values);
+      await api.post(`/customers/${router.query.id}/measurement`, values);
 
-    //   notification.success({
-    //     message: "تم حفظ المقاسات",
-    //   });
-    // } catch (error) {
-    //   notification.error({
-    //     message: "حدث خطأ",
-    //   });
-    // } finally {
-    //   setLoading(false);
-    // }
+      notification.success({
+        message: "تم حفظ المقاسات",
+      });
+    } catch (error) {
+      notification.error({
+        message: "حدث خطأ",
+      });
+    } finally {
+      setLoading(false);
+    }
   };
   return (
     <DashboardLayout>
@@ -82,7 +86,7 @@ export default function MeasurementsPage() {
         ]}
       />
 
-      <Form form={form} layout="vertical" onFinish={onFinish}>
+      {fetching ? <PageLoader rows={6} /> : <Form form={form} layout="vertical" onFinish={onFinish}>
         <Card title="مقاسات الجاكيت" style={{ marginBottom: 16 }}>
           <Row gutter={16}>
             <Col xs={24} md={12}>
@@ -653,7 +657,7 @@ export default function MeasurementsPage() {
         <Button type="primary" htmlType="submit" loading={loading}>
           حفظ المقاسات
         </Button>
-      </Form>
+      </Form>}
     </DashboardLayout>
   );
 }

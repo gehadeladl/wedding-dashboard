@@ -131,18 +131,19 @@ export default function WebsiteLayout({ children }) {
     return {
       background: isActive
         ? darkMode
-          ? "rgba(255,255,255,0.18)"
-          : "rgba(37,99,235,0.10)"
+          ? "rgba(201,166,91,0.16)"
+          : "rgba(201,166,91,0.10)"
         : "transparent",
       border: "none",
       cursor: "pointer",
-      fontSize: 15,
-      fontWeight: isActive ? 800 : 600,
-      color: darkMode ? "#fff" : isActive ? "#2563eb" : "#111827",
-      padding: "10px 14px",
-      borderRadius: 999,
+      fontSize: 14,
+      fontWeight: isActive ? 600 : 400,
+      color: darkMode ? "#f8f6f0" : isActive ? "#c9a65b" : "#f8f6f0",
+      padding: "5px 10px",
+      borderRadius: 10,
       transition: "all 0.25s ease",
       whiteSpace: "nowrap",
+      minWidth: 60,
     };
   };
 
@@ -155,13 +156,13 @@ export default function WebsiteLayout({ children }) {
     return {
       width: "100%",
       textAlign: "right",
-      background: isActive ? "rgba(37,99,235,0.08)" : "transparent",
+      background: isActive ? "rgba(201,166,91,0.12)" : "transparent",
       border: "none",
       borderRadius: 14,
       padding: "14px 16px",
       fontSize: 15,
       fontWeight: isActive ? 800 : 600,
-      color: isActive ? "#2563eb" : "#111827",
+      color: isActive ? "#c9a65b" : "#f8f6f0",
       cursor: "pointer",
     };
   };
@@ -169,9 +170,10 @@ export default function WebsiteLayout({ children }) {
   return (
     <div
       style={{
-        background: "#f7f8fa",
+        background: "#0f0f0f",
         minHeight: "100vh",
       }}
+      className="website-shell"
     >
       {/* ================= NAVBAR ================= */}
       <header
@@ -182,15 +184,16 @@ export default function WebsiteLayout({ children }) {
           right: 0,
           zIndex: 1000,
           transition: "all 0.3s ease",
-          background:
-            scrolled || !isHomePage ? "rgba(255,255,255,0.92)" : "transparent",
+          background: "rgba(18,18,18,0.88)",
+          // background:
+          //   scrolled || !isHomePage ? "rgba(18,18,18,0.88)" : "transparent",
           backdropFilter: scrolled || !isHomePage ? "blur(12px)" : "blur(0px)",
           borderBottom:
             scrolled || !isHomePage
-              ? "1px solid rgba(0,0,0,0.06)"
+              ? "1px solid rgba(201,166,91,0.18)"
               : "1px solid transparent",
           boxShadow:
-            scrolled || !isHomePage ? "0 10px 30px rgba(0,0,0,0.06)" : "none",
+            scrolled || !isHomePage ? "0 10px 30px rgba(0,0,0,0.28)" : "none",
         }}
       >
         <div
@@ -207,10 +210,11 @@ export default function WebsiteLayout({ children }) {
           {/* Logo */}
           <Link href="/" style={{ textDecoration: "none" }}>
             <img
-              src="/images/logo.png"
+              src="/images/logo/logo.png"
               alt="Designer Mohamed Alaa"
               style={{
-                width: isMobile ? 70 : 90,
+                width: 180,
+                // width: isMobile ? 70 : 90,
                 height: "auto",
                 display: "block",
                 objectFit: "contain",
@@ -250,19 +254,18 @@ export default function WebsiteLayout({ children }) {
               href="https://wa.me/201000000000"
               target="_blank"
               style={{
-                height: 44,
-                borderRadius: 999,
-                paddingInline: 24,
-                fontWeight: 700,
+                borderRadius: 10,
+                height: 35,
+                fontWeight: 500,
+                width: 80,
                 border:
                   scrolled || !isHomePage
                     ? undefined
-                    : "1px solid rgba(255,255,255,0.55)",
-                color: scrolled || !isHomePage ? undefined : "#111827",
-                background:
-                  scrolled || !isHomePage
-                    ? undefined
-                    : "rgba(255,255,255,0.95)",
+                    : "1px solid rgba(201,166,91,0.65)",
+                color: scrolled || !isHomePage ? undefined : "#f8f6f0",
+                background: "rgba(18,18,18,0.92)",
+                //  background:
+                // scrolled || !isHomePage ? undefined : "rgba(18,18,18,0.92)",
               }}
             >
               واتساب
@@ -274,7 +277,7 @@ export default function WebsiteLayout({ children }) {
                 <MenuOutlined
                   style={{
                     fontSize: 22,
-                    color: scrolled || !isHomePage ? "#111827" : "#fff",
+                    color: "#c9a65b",
                   }}
                 />
               }
@@ -332,8 +335,9 @@ export default function WebsiteLayout({ children }) {
       <footer
         style={{
           marginTop: 80,
-          background: "#0f172a",
+          background: "#121212",
           color: "#fff",
+          borderTop: "1px solid rgba(201,166,91,.18)",
           padding: "28px 20px",
           textAlign: "center",
           fontSize: 15,

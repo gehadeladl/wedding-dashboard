@@ -60,10 +60,10 @@ export default function HomePage() {
       style={{
         padding: "32px 20px",
         borderRadius: 20,
-        background: "#fff",
+        background: "#1d1d1d",
         textAlign: "center",
-        color: "#64748b",
-        border: "1px dashed #cbd5e1",
+        color: "var(--muted)",
+        border: "1px dashed var(--muted)",
       }}
     >
       {text}
@@ -78,7 +78,7 @@ export default function HomePage() {
         style={{
           fontSize: 18,
           fontWeight: 800,
-          color: dark ? "#fff" : "#0f172a",
+          color: "#fff",
         }}
       >
         {product.price ? `${product.price} ج.م` : "اسأل عن السعر"}
@@ -109,25 +109,25 @@ export default function HomePage() {
       <section
         style={{
           position: "relative",
-          minHeight: "100vh",
+          minHeight: "500px",
           overflow: "hidden",
           background: "#111827",
         }}
       >
         {sliders.length ? (
-          <Carousel autoplay autoplaySpeed={30000} dots>
+          <Carousel autoplay autoplaySpeed={30000} dots arrows speed={700}>
             {sliders.map((slider) => (
               <div key={slider.id}>
                 <div
                   style={{
-                    minHeight: "100vh",
+                    minHeight: "500px",
                     backgroundImage: `linear-gradient(rgba(0,0,0,0.35), rgba(0,0,0,0.45)), url(${slider.imageUrl})`,
-                    backgroundSize: "cover",
-                    backgroundPosition: "center",
+                    backgroundSize: "contain",
+                    // backgroundPosition: "center",
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
-                    padding: "120px 24px 80px",
+                    marginTop: "100px",
                   }}
                 >
                   <motion.div
@@ -247,8 +247,8 @@ export default function HomePage() {
       <section
         id="suits-section"
         style={{
-          padding: "90px 24px 40px",
-          background: "#f8fafc",
+          padding: "40px 24px 40px",
+          background: "#0f0f0f",
         }}
       >
         <div style={{ maxWidth: 1400, margin: "0 auto" }}>
@@ -264,7 +264,7 @@ export default function HomePage() {
               style={{
                 fontSize: 14,
                 fontWeight: 700,
-                color: "#2563eb",
+                color: "#c9a65b",
                 marginBottom: 10,
               }}
             >
@@ -295,7 +295,7 @@ export default function HomePage() {
                       variants={scaleInVariant}
                       custom={index * 0.08}
                       style={{
-                        background: "#fff",
+                        background: "#1d1d1d",
                         borderRadius: 24,
                         overflow: "hidden",
                         boxShadow: "0 14px 40px rgba(15,23,42,0.08)",
@@ -306,7 +306,7 @@ export default function HomePage() {
                           height: 360,
                           backgroundImage: product?.images?.[0]?.imageUrl
                             ? `url(${product.images[0].imageUrl})`
-                            : "linear-gradient(135deg, #dbeafe 0%, #eff6ff 100%)",
+                            : "linear-gradient(135deg, #171717 0%, #1d1d1d 100%)",
                           backgroundSize: "cover",
                           backgroundPosition: "center",
                         }}
@@ -384,8 +384,8 @@ export default function HomePage() {
       <section
         id="shirts-section"
         style={{
-          padding: "90px 24px 40px",
-          background: "#ffffff",
+          padding: "40px 24px 40px",
+          background: "#171717",
         }}
       >
         <div style={{ maxWidth: 1400, margin: "0 auto" }}>
@@ -401,7 +401,7 @@ export default function HomePage() {
               style={{
                 fontSize: 14,
                 fontWeight: 700,
-                color: "#2563eb",
+                color: "#c9a65b",
                 marginBottom: 10,
               }}
             >
@@ -432,7 +432,7 @@ export default function HomePage() {
                       variants={fadeUpVariant}
                       custom={index * 0.08}
                       style={{
-                        background: "#fff",
+                        background: "#1d1d1d",
                         borderRadius: 20,
                         border: "1px solid #e5e7eb",
                         overflow: "hidden",
@@ -520,8 +520,8 @@ export default function HomePage() {
       <section
         id="belts-section"
         style={{
-          padding: "90px 24px 40px",
-          background: "#f8fafc",
+          padding: "40px 24px 40px",
+          background: "#0f0f0f",
         }}
       >
         <div style={{ maxWidth: 1400, margin: "0 auto" }}>
@@ -537,7 +537,7 @@ export default function HomePage() {
               style={{
                 fontSize: 14,
                 fontWeight: 700,
-                color: "#2563eb",
+                color: "#c9a65b",
                 marginBottom: 10,
               }}
             >
@@ -609,6 +609,7 @@ export default function HomePage() {
                             display: "flex",
                             alignItems: "center",
                             gap: 12,
+                            justifyContent: "space-between",
                             flexWrap: "wrap",
                           }}
                         >
@@ -665,8 +666,8 @@ export default function HomePage() {
       <section
         id="ties-section"
         style={{
-          padding: "90px 24px 40px",
-          background: "#ffffff",
+          padding: "40px 24px 40px",
+          background: "#171717",
         }}
       >
         <div style={{ maxWidth: 1400, margin: "0 auto" }}>
@@ -682,7 +683,7 @@ export default function HomePage() {
               style={{
                 fontSize: 14,
                 fontWeight: 700,
-                color: "#2563eb",
+                color: "#c9a65b",
                 marginBottom: 10,
               }}
             >
@@ -713,7 +714,7 @@ export default function HomePage() {
                       variants={scaleInVariant}
                       custom={index * 0.05}
                       style={{
-                        background: "#fff",
+                        background: "#1d1d1d",
                         borderRadius: 18,
                         padding: 16,
                         border: "1px solid #edf2f7",
@@ -785,8 +786,8 @@ export default function HomePage() {
       <section
         id="shoes-section"
         style={{
-          padding: "90px 24px 40px",
-          background: "#f8fafc",
+          padding: "40px 24px 40px",
+          background: "#0f0f0f",
         }}
       >
         <div style={{ maxWidth: 1400, margin: "0 auto" }}>
@@ -802,7 +803,7 @@ export default function HomePage() {
               style={{
                 fontSize: 14,
                 fontWeight: 700,
-                color: "#2563eb",
+                color: "#c9a65b",
                 marginBottom: 10,
               }}
             >
@@ -833,7 +834,7 @@ export default function HomePage() {
                       variants={fadeUpVariant}
                       custom={index * 0.1}
                       style={{
-                        background: "#fff",
+                        background: "#1d1d1d",
                         borderRadius: 28,
                         overflow: "hidden",
                         boxShadow: "0 10px 30px rgba(15,23,42,0.06)",
@@ -924,7 +925,7 @@ export default function HomePage() {
         id="casual-section"
         style={{
           padding: "90px 24px 100px",
-          background: "#ffffff",
+          background: "#171717",
         }}
       >
         <div style={{ maxWidth: 1400, margin: "0 auto" }}>
@@ -940,7 +941,7 @@ export default function HomePage() {
               style={{
                 fontSize: 14,
                 fontWeight: 700,
-                color: "#2563eb",
+                color: "#c9a65b",
                 marginBottom: 10,
               }}
             >

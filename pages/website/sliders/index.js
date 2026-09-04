@@ -28,6 +28,7 @@ import Cropper from "react-easy-crop";
 
 import DashboardLayout from "@/layouts/DashboardLayout";
 import PageHeader from "@/components/PageHeader";
+import PageLoader from "@/components/PageLoader";
 import withAuth from "@/hoc/withAuth";
 import api from "@/services/api";
 
@@ -61,6 +62,7 @@ const getCroppedImage = (imageSrc, croppedAreaPixels) =>
 
 export default function WebsiteSlidersPage() {
   const [sliders, setSliders] = useState([]);
+  const [fetching, setFetching] = useState(true);
   const [loading, setLoading] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [actionLoadingId, setActionLoadingId] = useState(null);
@@ -78,6 +80,8 @@ export default function WebsiteSlidersPage() {
       setSliders(res.data || []);
     } catch (error) {
       console.log(error);
+    } finally {
+      setFetching(false);
     }
   };
 
@@ -224,6 +228,7 @@ export default function WebsiteSlidersPage() {
       />
 
       {/* هيدر الصفحة */}
+      {fetching ? <PageLoader /> : <>
       <Card style={{ marginBottom: 20, borderRadius: 16 }}>
         <Row justify="space-between" align="middle" gutter={[16, 16]}>
           <Col>
@@ -298,7 +303,7 @@ export default function WebsiteSlidersPage() {
                       flexWrap: "wrap",
                     }}
                   >
-                    <Tag color="blue">ترتيب #{slider.sortOrder}</Tag>
+                    <Tag color="gold">ترتيب #{slider.sortOrder}</Tag>
                     {slider.isActive ? (
                       <Tag color="green">مفعلة</Tag>
                     ) : (
@@ -369,6 +374,7 @@ export default function WebsiteSlidersPage() {
       )}
 
       {/* ========= Modal الـ Cropper ========= */}
+      </>}
       <Modal
         // title="اقص الصورة وحدد الجزء المطلوب"
         open={cropModalOpen}

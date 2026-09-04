@@ -14,6 +14,7 @@ import DashboardLayout from "@/layouts/DashboardLayout";
 import api from "@/services/api";
 import withAuth from "@/hoc/withAuth";
 import PageHeader from "@/components/PageHeader";
+import PageLoader from "@/components/PageLoader";
 
 const websiteSectionMap = {
   SUITS: "البدل",
@@ -25,17 +26,17 @@ const websiteSectionMap = {
 };
 
 const sectionColorMap = {
-  SUITS: "blue",
-  SHIRTS: "green",
+  SUITS: "gold",
+  SHIRTS: "gold",
   BELTS: "gold",
-  TIES_BOWTIES: "purple",
-  SHOES: "cyan",
-  TSHIRTS_PULLOVERS: "magenta",
+  TIES_BOWTIES: "gold",
+  SHOES: "gold",
+  TSHIRTS_PULLOVERS: "gold",
 };
 
 const sectionsOrder = [
   { key: "UNCLASSIFIED", title: "منتجات غير مصنفة", color: "default" },
-  { key: "SUITS", title: "البدل", color: "blue" },
+  { key: "SUITS", title: "البدل", color: "gold" },
   { key: "SHIRTS", title: "القمصان", color: "green" },
   { key: "BELTS", title: "الأحزمة", color: "gold" },
   { key: "TIES_BOWTIES", title: "البابيون والكرافتات", color: "purple" },
@@ -49,6 +50,7 @@ const sectionsOrder = [
 
 export default function ProductsPage() {
   const [data, setData] = useState([]);
+  const [fetching, setFetching] = useState(true);
   const [windowWidth, setWindowWidth] = useState(
     typeof window !== "undefined" ? window.innerWidth : 1200,
   );
@@ -57,8 +59,14 @@ export default function ProductsPage() {
   const isMedium = windowWidth < 992; // 576–991px → المنتج + السعر
 
   const getProducts = async () => {
-    const res = await api.get("/products");
-    setData(res.data || []);
+    try {
+      const res = await api.get("/products");
+      setData(res.data || []);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setFetching(false);
+    }
   };
 
   useEffect(() => {
@@ -122,7 +130,7 @@ export default function ProductsPage() {
                   width: 60,
                   height: 60,
                   borderRadius: 14,
-                  background: "#f1f1f1",
+                  background: "#1d1d1d",
                   border: "1px solid #eee",
                   flexShrink: 0,
                 }}
@@ -133,7 +141,6 @@ export default function ProductsPage() {
                 style={{
                   fontWeight: 700,
                   fontSize: 15,
-                  color: "#111827",
                   marginBottom: 4,
                 }}
               >
@@ -169,7 +176,7 @@ export default function ProductsPage() {
             title: "السعر",
             width: 140,
             render: (_, row) => (
-              <span style={{ fontWeight: 700, color: "#111827" }}>
+              <span style={{ fontWeight: 700 }}>
                 {row.price ? `${row.price} جنيه` : "—"}
               </span>
             ),
@@ -197,7 +204,7 @@ export default function ProductsPage() {
                   {row.showPrice ? "السعر ظاهر" : "السعر مخفي"}
                 </Tag>
                 <Tag
-                  color={row.showOnHome ? "blue" : "default"}
+                  color="gold"
                   style={{
                     borderRadius: 999,
                     paddingInline: 10,
@@ -243,7 +250,7 @@ export default function ProductsPage() {
           <Tag color={row.showPrice ? "green" : "red"}>
             {row.showPrice ? "السعر ظاهر" : "السعر مخفي"}
           </Tag>
-          <Tag color={row.showOnHome ? "blue" : "default"}>
+          <Tag color="gold">
             {row.showOnHome ? "يظهر في الرئيسية" : "مخفي من الرئيسية"}
           </Tag>
           <Tag color="gold">ترتيب الظهور: {row.displayOrder ?? 0}</Tag>
@@ -275,76 +282,79 @@ export default function ProductsPage() {
         buttonLink="/products/create"
       />
 
-      <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
-        {sectionsOrder.map((section) => {
-          const sectionProducts = groupedProducts[section.key] || [];
+      {fetching ? (
+        <PageLoader />
+      ) : (
+        <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+          {sectionsOrder.map((section) => {
+            const sectionProducts = groupedProducts[section.key] || [];
 
-          return (
-            <Card
-              key={section.key}
-              style={{ borderRadius: 18 }}
-              bodyStyle={{ padding: 0 }}
-            >
-              <div
-                style={{
-                  padding: "18px 20px",
-                  borderBottom: "1px solid #f0f0f0",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "space-between",
-                  gap: 12,
-                  flexWrap: "wrap",
-                }}
+            return (
+              <Card
+                key={section.key}
+                style={{ borderRadius: 18 }}
+                bodyStyle={{ padding: 0 }}
               >
                 <div
                   style={{
+                    padding: "18px 20px",
                     display: "flex",
                     alignItems: "center",
-                    gap: 10,
+                    justifyContent: "space-between",
+                    gap: 12,
                     flexWrap: "wrap",
                   }}
                 >
-                  <h3
+                  <div
                     style={{
-                      margin: 0,
-                      fontSize: 18,
-                      fontWeight: 800,
-                      color: "#111827",
+                      display: "flex",
+                      alignItems: "center",
+                      gap: 10,
+                      flexWrap: "wrap",
                     }}
                   >
-                    {section.title}
-                  </h3>
-                  <Tag
-                    color={section.color}
-                    style={{
-                      borderRadius: 999,
-                      paddingInline: 10,
-                      paddingBlock: 4,
-                      marginInlineEnd: 0,
-                      fontWeight: 700,
-                    }}
-                  >
-                    {sectionProducts.length} منتج
-                  </Tag>
+                    <h3
+                      style={{
+                        margin: 0,
+                        fontSize: 18,
+                        fontWeight: 800,
+                        color: "#111827",
+                      }}
+                    >
+                      {section.title}
+                    </h3>
+                    <Tag
+                      color={section.color}
+                      style={{
+                        borderRadius: 999,
+                        paddingInline: 10,
+                        paddingBlock: 4,
+                        marginInlineEnd: 0,
+                        fontWeight: 700,
+                      }}
+                    >
+                      {sectionProducts.length} منتج
+                    </Tag>
+                  </div>
                 </div>
-              </div>
 
-              <Table
-                rowKey="id"
-                columns={columns}
-                dataSource={sectionProducts}
-                pagination={false}
-                locale={{ emptyText: "لا توجد منتجات في هذا القسم" }}
-                scroll={{ x: "max-content" }}
-                rowClassName={() => "products-table-row"}
-                expandable={{
-                  expandedRowRender,
-                }}
-              />
-            </Card>
-          );
-        })}
-      </div>
+                <Table
+                  rowKey="id"
+                  columns={columns}
+                  dataSource={sectionProducts}
+                  pagination={false}
+                  locale={{ emptyText: "لا توجد منتجات في هذا القسم" }}
+                  scroll={{ x: "max-content" }}
+                  rowClassName={() => "products-table-row"}
+                  expandable={{
+                    expandedRowRender,
+                  }}
+                />
+              </Card>
+            );
+          })}
+        </div>
+      )}
 
       <style jsx global>{`
         .products-table-row td {

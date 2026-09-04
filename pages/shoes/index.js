@@ -70,7 +70,7 @@ export default function ShoesPage() {
         style={{
           padding: "160px 24px 80px",
           background:
-            "linear-gradient(135deg, #0f172a 0%, #1d4ed8 50%, #1e3a8a 100%)",
+            "linear-gradient(135deg, #0f0f0f 0%, #171717 50%, #1d1d1d 100%)",
           color: "#fff",
           textAlign: "center",
         }}
@@ -123,7 +123,7 @@ export default function ShoesPage() {
       <section
         style={{
           padding: "70px 24px 90px",
-          background: "#f8fafc",
+          background: "#0f0f0f",
         }}
       >
         <div style={{ maxWidth: 1400, margin: "0 auto" }}>
@@ -138,7 +138,7 @@ export default function ShoesPage() {
                     variants={scaleInVariant}
                     custom={index * 0.08}
                     style={{
-                      background: "#fff",
+                      background: "#1d1d1d",
                       borderRadius: 24,
                       overflow: "hidden",
                       boxShadow: "0 14px 40px rgba(15,23,42,0.08)",
@@ -150,7 +150,7 @@ export default function ShoesPage() {
                         height: 360,
                         backgroundImage: product?.images?.[0]?.imageUrl
                           ? `url(${product.images[0].imageUrl})`
-                          : "linear-gradient(135deg, #dbeafe 0%, #eff6ff 100%)",
+                          : "linear-gradient(135deg, #171717 0%, #1d1d1d 100%)",
                         backgroundSize: "cover",
                         backgroundPosition: "center",
                       }}
@@ -209,7 +209,7 @@ export default function ShoesPage() {
               style={{
                 padding: "40px 20px",
                 textAlign: "center",
-                background: "#fff",
+                background: "#1d1d1d",
                 borderRadius: 24,
                 color: "#64748b",
                 border: "1px dashed #cbd5e1",

@@ -17,11 +17,13 @@ import { useEffect, useMemo, useState } from "react";
 
 import DashboardLayout from "@/layouts/DashboardLayout";
 import PageHeader from "@/components/PageHeader";
+import PageLoader from "@/components/PageLoader";
 import api from "@/services/api";
 import withAuth from "@/hoc/withAuth";
 
 export default function InventoryPage() {
   const [data, setData] = useState([]);
+  const [fetching, setFetching] = useState(true);
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -55,6 +57,8 @@ export default function InventoryPage() {
     } catch (error) {
       console.log(error);
       notification.error({ message: "تعذر تحميل المخزون" });
+    } finally {
+      setFetching(false);
     }
   };
 
@@ -434,7 +438,7 @@ export default function InventoryPage() {
         }}
       />
 
-      <Row gutter={[16, 16]}>
+      {fetching ? <PageLoader /> : <Row gutter={[16, 16]}>
         {renderTable(
           "القمصان",
           shirts,
@@ -492,7 +496,7 @@ export default function InventoryPage() {
           pulloverExpand,
           "لا توجد بلوفرات",
         )}
-      </Row>
+      </Row>}
 
       {/* مودال إضافة عنصر */}
       <Modal

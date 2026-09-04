@@ -122,7 +122,7 @@ export default function TiesBowtiesPage() {
       <section
         style={{
           padding: "70px 24px 90px",
-          background: "#f8fafc",
+          background: "#0f0f0f",
         }}
       >
         <div style={{ maxWidth: 1400, margin: "0 auto" }}>
@@ -137,7 +137,7 @@ export default function TiesBowtiesPage() {
                     variants={scaleInVariant}
                     custom={index * 0.08}
                     style={{
-                      background: "#fff",
+                      background: "#1d1d1d",
                       borderRadius: 24,
                       overflow: "hidden",
                       boxShadow: "0 14px 40px rgba(15,23,42,0.08)",
@@ -208,7 +208,7 @@ export default function TiesBowtiesPage() {
               style={{
                 padding: "40px 20px",
                 textAlign: "center",
-                background: "#fff",
+                background: "#1d1d1d",
                 borderRadius: 24,
                 color: "#64748b",
                 border: "1px dashed #cbd5e1",

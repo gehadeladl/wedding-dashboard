@@ -38,17 +38,28 @@ export default function LoginPage() {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        background: "#f5f5f5",
+        background: "#0f0f0f",
         padding: 20,
       }}
+      className="login-shell"
     >
       <Card
         title="تسجيل الدخول"
         style={{
           width: 450,
-          borderRadius: 12,
+          borderRadius: 8,
         }}
       >
+        <img
+          src="/images/logo/logo.png"
+          alt="Designer Mohamed Alaa"
+          style={{
+            width: 220,
+            height: "auto",
+            display: "block",
+            margin: "0 auto 20px",
+          }}
+        />
         <Form layout="vertical" onFinish={onFinish}>
           <Form.Item
             label="اسم المستخدم"
@@ -75,10 +86,10 @@ export default function LoginPage() {
           >
             <Input.Password size="large" placeholder="كلمة المرور" />
           </Form.Item>
-
+          {/* 
           <Form.Item name="remember" valuePropName="checked">
             <Checkbox>تذكرني</Checkbox>
-          </Form.Item>
+          </Form.Item> */}
 
           <Button
             type="primary"

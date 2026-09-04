@@ -107,6 +107,7 @@ export default function DashboardLayout({ children }) {
           : "/dashboard";
   return (
     <Layout
+      className="dashboard-shell"
       style={{
         minHeight: "100vh",
       }}
@@ -118,7 +119,7 @@ export default function DashboardLayout({ children }) {
           style={{
             position: "fixed",
             inset: 0,
-            background: "rgba(0,0,0,.35)",
+            background: "rgba(0,0,0,.7)",
             zIndex: 999,
           }}
         />
@@ -147,14 +148,45 @@ export default function DashboardLayout({ children }) {
       >
         <div
           style={{
-            color: "#fff",
-            textAlign: "center",
-            padding: 20,
-            fontSize: 20,
-            fontWeight: "bold",
+            padding: "3px 15px",
+            marginBottom: "10px",
           }}
         >
-          Designer
+          {collapsed ? (
+            <Link href="/" style={{ textDecoration: "none" }}>
+              <img
+                src="/images/logo/logoRes.png"
+                alt="Designer Mohamed Alaa"
+                style={{
+                  width: 50,
+                  // width: isMobile ? 70 : 90,
+                  height: "auto",
+                  display: "block",
+                  objectFit: "contain",
+                  cursor: "pointer",
+                  transition: "all .3s ease",
+                  margin: "auto",
+                }}
+              />
+            </Link>
+          ) : (
+            <Link href="/" style={{ textDecoration: "none" }}>
+              <img
+                src="/images/logo/logo.png"
+                alt="Designer Mohamed Alaa"
+                style={{
+                  width: 170,
+                  // width: isMobile ? 70 : 90,
+                  height: "auto",
+                  display: "block",
+                  objectFit: "contain",
+                  cursor: "pointer",
+                  transition: "all .3s ease",
+                  margin: "auto",
+                }}
+              />
+            </Link>
+          )}
         </div>
 
         <Menu
@@ -177,12 +209,14 @@ export default function DashboardLayout({ children }) {
       <Layout>
         <Header
           style={{
-            background: "#fff",
+            background: "rgba(18,18,18,.92)",
             paddingInline: 20,
             display: "flex",
             justifyContent: "space-between",
             alignItems: "center",
-            boxShadow: "0 2px 10px rgba(0,0,0,.05)",
+            boxShadow: "0 2px 20px rgba(0,0,0,.25)",
+            borderBottom: "1px solid rgba(201,166,91,.18)",
+            color: "#f8f6f0",
           }}
         >
           <div

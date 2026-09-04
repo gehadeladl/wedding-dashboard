@@ -22,6 +22,7 @@ import { useEffect, useState } from "react";
 import { Row, Col } from "antd";
 import DashboardLayout from "@/layouts/DashboardLayout";
 import PageHeader from "@/components/PageHeader";
+import PageLoader from "@/components/PageLoader";
 import api from "@/services/api";
 import withAuth from "@/hoc/withAuth";
 import locale from "antd/lib/date-picker/locale/ar_EG";
@@ -32,6 +33,7 @@ const { TextArea } = Input;
 
 export default function CustomersPage() {
   const [data, setData] = useState([]);
+  const [fetching, setFetching] = useState(true);
   const [windowWidth, setWindowWidth] = useState(
     typeof window !== "undefined" ? window.innerWidth : 1200,
   );
@@ -52,6 +54,8 @@ export default function CustomersPage() {
       setData(res.data);
     } catch (error) {
       console.log(error);
+    } finally {
+      setFetching(false);
     }
   };
 
@@ -189,9 +193,9 @@ export default function CustomersPage() {
       render: (_, row) => {
         const colors = {
           NEW: "default",
-          MEASURED: "blue",
+          MEASURED: "gold",
           IN_PROGRESS: "orange",
-          FITTING_READY: "purple",
+          FITTING_READY: "gold",
           READY: "green",
           DELIVERED: "success",
         };
@@ -227,7 +231,7 @@ export default function CustomersPage() {
       />
 
       <Row gutter={16} style={{ marginBottom: 16 }}>
-        <Col xs={24} md={8} style={{ marginBottom: 10 }}>
+        <Col xs={24} md={8} style={{ marginBottom: 10 }} className="searchName">
           <Input
             placeholder="بحث باسم العميل"
             allowClear
@@ -253,99 +257,103 @@ export default function CustomersPage() {
         </Col>
       </Row>
 
-      <Table
-        rowKey="id"
-        columns={columns}
-        dataSource={filteredData}
-        expandable={{
-          expandedRowRender: (row) => (
-            <div>
-              {/* رقم الهاتف → في expandable لما يكون sm */}
-              {isMobile && (
-                <p>
-                  <strong>رقم الهاتف : </strong>
+      {fetching ? (
+        <PageLoader />
+      ) : (
+        <Table
+          rowKey="id"
+          columns={columns}
+          dataSource={filteredData}
+          expandable={{
+            expandedRowRender: (row) => (
+              <div>
+                {/* رقم الهاتف → في expandable لما يكون sm */}
+                {isMobile && (
+                  <p>
+                    <strong>رقم الهاتف : </strong>
 
-                  <Popover
-                    trigger="click"
-                    content={
-                      <Space direction="vertical">
-                        <a href={`tel:${row.phone}`}>📞 اتصال</a>
+                    <Popover
+                      trigger="click"
+                      content={
+                        <Space direction="vertical">
+                          <a href={`tel:${row.phone}`}>📞 اتصال</a>
 
-                        <a
-                          href={`https://wa.me/2${row.phone}`}
-                          target="_blank"
-                          rel="noreferrer"
-                        >
-                          💬 واتساب
-                        </a>
-                      </Space>
-                    }
-                  >
-                    <Button
-                      type="link"
-                      style={{
-                        padding: 0,
-                        height: "auto",
-                        fontWeight: 600,
-                      }}
+                          <a
+                            href={`https://wa.me/2${row.phone}`}
+                            target="_blank"
+                            rel="noreferrer"
+                          >
+                            💬 واتساب
+                          </a>
+                        </Space>
+                      }
                     >
-                      {row.phone}
+                      <Button
+                        type="link"
+                        style={{
+                          padding: 0,
+                          height: "auto",
+                          fontWeight: 600,
+                        }}
+                      >
+                        {row.phone}
+                      </Button>
+                    </Popover>
+                  </p>
+                )}
+                <p>
+                  <strong>تاريخ الحجز : </strong>
+                  {dayjs(row.bookingDate).format("YYYY-MM-DD")}
+                </p>
+
+                {/* موعد الاستلام → في expandable لما يكون md أو sm */}
+                {isMedium && (
+                  <p>
+                    <strong>موعد الاستلام : </strong>
+                    {dayjs(row.deliveryDate).format("YYYY-MM-DD")}
+                  </p>
+                )}
+
+                <p>
+                  <strong>المبلغ الكلي : </strong> {row.totalAmount || 0}
+                </p>
+
+                <p>
+                  <strong>المدفوع : </strong> {row.paidAmount || 0}
+                </p>
+
+                <p>
+                  <strong>المتبقي : </strong> {row.remainingAmount || 0}
+                </p>
+
+                {row.notes && (
+                  <p>
+                    <strong>ملاحظات : </strong> {row.notes}
+                  </p>
+                )}
+
+                {/* الإجراءات دايماً في expandable في كل الشاشات */}
+                <Space style={{ marginTop: 10 }}>
+                  <Link href={`/customers/${row.id}`}>
+                    <Button type="primary">عرض التفاصيل</Button>
+                  </Link>
+
+                  <Popconfirm
+                    title="حذف العميل ؟"
+                    okText="نعم"
+                    cancelText="لا"
+                    onConfirm={() => deleteCustomer(row.id)}
+                  >
+                    <Button danger icon={<DeleteOutlined />}>
+                      حذف
                     </Button>
-                  </Popover>
-                </p>
-              )}
-              <p>
-                <strong>تاريخ الحجز : </strong>
-                {dayjs(row.bookingDate).format("YYYY-MM-DD")}
-              </p>
-
-              {/* موعد الاستلام → في expandable لما يكون md أو sm */}
-              {isMedium && (
-                <p>
-                  <strong>موعد الاستلام : </strong>
-                  {dayjs(row.deliveryDate).format("YYYY-MM-DD")}
-                </p>
-              )}
-
-              <p>
-                <strong>المبلغ الكلي : </strong> {row.totalAmount || 0}
-              </p>
-
-              <p>
-                <strong>المدفوع : </strong> {row.paidAmount || 0}
-              </p>
-
-              <p>
-                <strong>المتبقي : </strong> {row.remainingAmount || 0}
-              </p>
-
-              {row.notes && (
-                <p>
-                  <strong>ملاحظات : </strong> {row.notes}
-                </p>
-              )}
-
-              {/* الإجراءات دايماً في expandable في كل الشاشات */}
-              <Space style={{ marginTop: 10 }}>
-                <Link href={`/customers/${row.id}`}>
-                  <Button type="primary">عرض التفاصيل</Button>
-                </Link>
-
-                <Popconfirm
-                  title="حذف العميل ؟"
-                  okText="نعم"
-                  cancelText="لا"
-                  onConfirm={() => deleteCustomer(row.id)}
-                >
-                  <Button danger icon={<DeleteOutlined />}>
-                    حذف
-                  </Button>
-                </Popconfirm>
-              </Space>
-            </div>
-          ),
-        }}
-      />
+                  </Popconfirm>
+                </Space>
+              </div>
+            ),
+          }}
+        />
+      )}
 
       <Modal
         title="إضافة عميل"
@@ -353,6 +361,7 @@ export default function CustomersPage() {
         footer={false}
         width={800}
         onCancel={() => setOpen(false)}
+        centered
       >
         <Form form={form} layout="vertical" onFinish={onFinish}>
           <Form.Item
