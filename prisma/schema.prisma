@@ -3,7 +3,7 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
@@ -24,7 +24,7 @@ model Category {
 
   products Product[]
 }
-
+ 
 model Product {
   id String @id @default(cuid())
 

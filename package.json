@@ -4,9 +4,14 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "prisma generate && next build",
+    "postinstall": "prisma generate" ,
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "db:seed": "node prisma/seed.js"
+  },
+  "prisma": {
+    "seed": "node prisma/seed.js"
   },
   "dependencies": {
     "@fontsource/cairo": "^5.2.7",
@@ -29,6 +34,7 @@
   "devDependencies": {
     "eslint": "8.57.1",
     "eslint-config-next": "12.3.7",
-    "prisma": "^6.19.3"
+    "prisma": "^6.19.3",
+    "tsx": "^4.19.0"
   }
 }
